@@ -18,6 +18,7 @@
 #include "tower.h"
 #include "towerposition.h"
 #include "waypoint.h"
+#include "bullet.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class GameWindow; }
 QT_END_NAMESPACE
@@ -28,7 +29,12 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *);
-
+    QList<Enemy *> enemyList() const;
+    void getHpDamage(int damage = 1);
+    void removedEnemy(Enemy *enemy);
+    void removeTower(Tower *tower);
+    void removedBullet(Bullet *bullet);
+    void addBullet(Bullet *bullet);
 private slots:
     void game_show();
 private:
@@ -44,15 +50,21 @@ private:
     int                     m_position;
     int                     m_posi;
     int                     m_custom;
+    bool					m_gameEnded;
+    QList<QVariant>			m_wavesInfo;
     QList<TowerPosition>	m_towerPositionsList;
     QList<Tower *>			m_towersList;
     QList<WayPoint *>		m_wayPointsList;
+    QList<Enemy *>			m_enemyList;
+    QList<Bullet *>			m_bulletList;
     void loadTowerPositions();
     void addWayPoints();
     void drawWave(QPainter *painter);
     void drawHP(QPainter *painter);
     void drawPlayerGold(QPainter *painter);
     void drawCustom(QPainter *painter);
+    void doGameOver();
+    void preLoadWavesInfo();
 };
 
 #endif // GAMEWINDOW_H

@@ -1,15 +1,19 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
+#include "enemy.h"
+#include "bullet.h"
 #include <plistreader.h>
 #include <QMessageBox>
 #include <QXmlStreamReader>
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
     ,ui(new Ui::GameWindow)
-    , m_waves(0)
-    , m_playerHp(5)
-    , m_playerGold(4000)
-    , m_position(0)
-    , m_custom(1){
+  , m_waves(0)
+  , m_playerHp(5)
+  , m_playerGold(4000)
+  , m_gameEnded(false)
+  , m_posi(NULL)
+  , m_position(0)
+  , m_custom(1){
     ui->setupUi(this);
     loadTowerPositions();
     addWayPoints();
@@ -86,6 +90,55 @@ void GameWindow::paintEvent(QPaintEvent *)
        drawPlayerGold(&painter);
        drawCustom(&painter);
 
+}
+void GameWindow::doGameOver()
+{
+   if (!m_gameEnded)
+   {
+       m_lost->play();
+
+       m_gameEnded = true;
+       this->hide();
+   }
+}
+
+void GameWindow::removedEnemy(Enemy *enemy)
+{
+   Q_ASSERT(enemy);
+
+   m_enemyList.removeOne(enemy);
+   delete enemy;
+}
+void GameWindow::getHpDamage(int damage/* = 1*/)
+{
+   m_lostlife->play();
+
+   m_playerHp -= damage;
+   if (m_playerHp <= 0){
+       doGameOver();
+   }
+}
+void GameWindow::removeTower(Tower *tower){
+   Q_ASSERT(tower);
+
+   m_towerPositionsList[m_position].setHasnoTower();
+   m_towersList.removeOne(tower);
+   delete tower;
+}
+
+void GameWindow::removedBullet(Bullet *bullet)
+{
+   Q_ASSERT(bullet);
+
+   m_bulletList.removeOne(bullet);
+   delete bullet;
+}
+
+void GameWindow::addBullet(Bullet *bullet)
+{
+   Q_ASSERT(bullet);
+
+   m_bulletList.push_back(bullet);
 }
 void GameWindow::addWayPoints()
 {
@@ -173,4 +226,8 @@ void GameWindow::drawCustom(QPainter *painter){
 }
 void GameWindow::game_show(){
     this->show();
+}
+QList<Enemy *> GameWindow::enemyList() const
+{
+   return m_enemyList;
 }

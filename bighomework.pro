@@ -24,7 +24,6 @@ SOURCES += \
     plistreader.cpp \
     tower.cpp \
     towerposition.cpp \
-    utility.cpp \
     waypoint.cpp
 
 HEADERS += \
