@@ -22,7 +22,10 @@ public:
 private slots:
     void on_pushButton_gamestart_clicked();
     void on_pushButton_gameoff_clicked();
-
+    void start_show();
+signals:
+    void showgamewindow();
+    void quit();
 private:
     Ui::MainWindow *ui;
     QPushButton *button_gamestart;

@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    this->setFixedSize(800,600);
+
     ui->setupUi(this);
 
     button_gamestart = new QPushButton(this);
@@ -44,10 +44,14 @@ void MainWindow::paintEvent(QPaintEvent *){
 }
 void MainWindow::on_pushButton_gamestart_clicked(){
     this->hide();
-    GameWindow *scene = new GameWindow;
-    scene->show();
+    emit showgamewindow();
 }
 
 void MainWindow::on_pushButton_gameoff_clicked(){
-    this->close();
+    emit quit();
 }
+
+void MainWindow::start_show(){
+    this->show();
+}
+

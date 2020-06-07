@@ -14,7 +14,10 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QPaintEvent>
-
+#include <QList>
+#include "tower.h"
+#include "towerposition.h"
+#include "waypoint.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class GameWindow; }
 QT_END_NAMESPACE
@@ -26,6 +29,8 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *);
 
+private slots:
+    void game_show();
 private:
     Ui::GameWindow *		ui;
     QMediaPlayer *          m_towerplace;
@@ -39,6 +44,11 @@ private:
     int                     m_position;
     int                     m_posi;
     int                     m_custom;
+    QList<TowerPosition>	m_towerPositionsList;
+    QList<Tower *>			m_towersList;
+    QList<WayPoint *>		m_wayPointsList;
+    void loadTowerPositions();
+    void addWayPoints();
     void drawWave(QPainter *painter);
     void drawHP(QPainter *painter);
     void drawPlayerGold(QPainter *painter);
