@@ -163,7 +163,82 @@ void Enemy::getDamage(int damage)
     m_enemydestroy->play();
 
     m_currentHp -= damage;
+    QPoint offp(m_pos.rx()-ms_fixedSize.width() / 2,m_pos.ry()-ms_fixedSize.width() / 2);
+    if(damage==50||damage==70||damage==90){
+        m_game->aoe(offp,damage);
+        m_game->showeffect(offp,damage);
+    }
+    // 阵亡,需要移除
 
+    // 阵亡,需要移除
+        srand((int)time(0));
+        int n=random(11);
+
+
+        foreach (Tower *tower, m_attackedTowersList) {
+            if(tower->m_candizzied){
+                if(damage==40&&n<=3){
+                m_dizzied = true;
+                dizzied=1;
+                }
+                if(damage==60&&n<=5){
+                m_dizzied = true;
+                dizzied=2;
+                }
+                if(damage==80&&n<=6){
+                m_dizzied = true;
+                dizzied=3;
+                }
+            }
+            if(tower->m_canfroze){
+                if(damage==30){
+                m_frozed = true;
+                frozed=1;
+                }
+                if(damage==41){
+                m_frozed = true;
+                frozed=2;
+                }
+                if(damage==51){
+                m_frozed = true;
+                frozed=3;
+                }
+            }
+        }
+        if(m_dizzied){
+            m_walkingSpeed = 0;
+            if(dizzied==1)
+            QTimer::singleShot(400, this, SLOT(releasedizzied()));
+            if(dizzied==2)
+            QTimer::singleShot(600, this, SLOT(releasedizzied()));
+            if(dizzied==3)
+            QTimer::singleShot(800, this, SLOT(releasedizzied()));
+        }
+        if(m_frozed){
+            if(frozed==1){
+            m_walkingSpeed = m_originSpeed *0.7;
+            QTimer::singleShot(600,this,SLOT(releasefrozed()));
+            }
+            if(frozed==2){
+            m_walkingSpeed = m_originSpeed *0.6;
+            QTimer::singleShot(1100,this,SLOT(releasefrozed()));
+            }
+            if(frozed==3){
+            m_walkingSpeed = m_originSpeed *0.5;
+            QTimer::singleShot(1600,this,SLOT(releasefrozed()));
+            }
+        }
+
+
+
+    if (m_currentHp <= 0)
+    {
+        m_enemydestroy->play();
+
+        m_game->awardGold(200);
+        m_game->showdeadenemy(offp,m_sprite_0);
+        getRemoved();
+    }
 }
 
 void Enemy::releasedizzied(){

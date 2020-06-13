@@ -48,7 +48,7 @@ void Bullet::hitTarget()
     // 因此先判断下敌人是否还有效
     if (m_game->enemyList().indexOf(m_target) != -1)
         m_target->getDamage(m_damage);
-    //m_game->removedBullet(this);
+        m_game->removedBullet(this);
 }
 
 void Bullet::setCurrentPos(QPoint pos)
