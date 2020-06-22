@@ -20,32 +20,41 @@ SOURCES += \
     bullet.cpp \
     enemy.cpp \
     gamewindow.cpp \
+    lostwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    middlewindow.cpp \
     plistreader.cpp \
     singlecao.cpp \
     tighttowerposi.cpp \
     tower.cpp \
     towerposition.cpp \
-    waypoint.cpp
+    waypoint.cpp \
+    winwindow.cpp
 
 HEADERS += \
     arrowtower.h \
     bullet.h \
     enemy.h \
     gamewindow.h \
+    lostwindow.h \
     mainwindow.h \
+    middlewindow.h \
     plistreader.h \
     singlecao.h \
     tighttowerposi.h \
     tower.h \
     towerposition.h \
     utility.h \
-    waypoint.h
+    waypoint.h \
+    winwindow.h
 
 FORMS += \
     gamewindow.ui \
-    mainwindow.ui
+    lostwindow.ui \
+    mainwindow.ui \
+    middlewindow.ui \
+    winwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
